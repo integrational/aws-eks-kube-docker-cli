@@ -1,4 +1,5 @@
 FROM ubuntu:18.04
+MAINTAINER gerald@integrational.eu
 
 #
 # This Dockerfile prioritizes clarity over efficiency by not merging all RUN commands.
