@@ -8,7 +8,7 @@ Linux (Ubuntu) base image with
 - `aws-iam-authenticator`, to [authenticate to a Kubernetes cluster using AWS IAM](https://github.com/kubernetes-sigs/aws-iam-authenticator)
 - `docker`, the [Docker CE CLI](https://docs.docker.com/install/linux/docker-ce/ubuntu/)
 
-Example: run bash in the container:
+*Example:* **run bash** in the container with an already configured AWS CLI context:
 ```
 docker run --rm --name aws-eks-kube-docker-cli -it      \
            -e 'AWS_ACCESS_KEY_ID=...'                   \
@@ -25,7 +25,7 @@ aws eks update-kubeconfig --name <cluster-name>
 kubectl get all
 ```
 
-Example: execute `./script.sh` in the container:
+*Example:* **run a script** `./script.sh` (containing CLI commands like the above) in the container with an already configured AWS CLI context, then return:
 ```
 docker run --rm --name aws-eks-kube-docker-cli -t       \
            -e 'AWS_ACCESS_KEY_ID=...'                   \
@@ -49,7 +49,7 @@ docker run -e 'AWS_ACCESS_KEY_ID=...'     \
 ```
 where only `AWS_DEFAULT_OUTPUT` can be omitted and then defaults to `json`.
 
-The entrypoint then **executes** the command or `/bin/bash`.
+The entrypoint script then **executes** the command supplied on the `docker run` command-line or `/bin/bash`.
 
 To list **available Kubernetes clusters** in the chosen default region, run this in the container:
 ```
