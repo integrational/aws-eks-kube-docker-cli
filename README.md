@@ -8,7 +8,7 @@ Linux (Ubuntu) base image with
 - `aws-iam-authenticator`, to [authenticate to a Kubernetes cluster using AWS IAM](https://github.com/kubernetes-sigs/aws-iam-authenticator)
 - `docker`, the [Docker CE CLI](https://docs.docker.com/install/linux/docker-ce/ubuntu/)
 
-Example run launching bash in the container:
+Example: run bash in the container:
 ```
 docker run --rm --name aws-eks-kube-docker-cli -it      \
            -e 'AWS_ACCESS_KEY_ID=...'                   \
@@ -25,9 +25,22 @@ aws eks update-kubeconfig --name <cluster-name>
 kubectl get all
 ```
 
+Example: execute `./script.sh` in the container:
+```
+docker run --rm --name aws-eks-kube-docker-cli -t       \
+           -e 'AWS_ACCESS_KEY_ID=...'                   \
+           -e 'AWS_SECRET_ACCESS_KEY=...'               \
+           -e 'AWS_DEFAULT_REGION=...'                  \
+           -v /var/run/docker.sock:/var/run/docker.sock \
+           -v $(pwd)/script.sh:/script.sh               \
+           integrational/aws-eks-kube-docker-cli:latest /script.sh
+```
+
 ## Details
 
-The container entrypoint configures the AWS CLI using environment variables and so the container must be run with:
+The **workdir** is `/` and this is also where the container entrypoint script is located.
+
+The container **entrypoint script** configures the AWS CLI with `aws configure` using the values of **environment variables** and so the container must be run with:
 ```
 docker run -e 'AWS_ACCESS_KEY_ID=...'     \
            -e 'AWS_SECRET_ACCESS_KEY=...' \
@@ -36,17 +49,19 @@ docker run -e 'AWS_ACCESS_KEY_ID=...'     \
 ```
 where only `AWS_DEFAULT_OUTPUT` can be omitted and then defaults to `json`.
 
-To list available Kubernetes clusters in the chosen default region, run this in the container:
+The entrypoint then **executes** the command or `/bin/bash`.
+
+To list **available Kubernetes clusters** in the chosen default region, run this in the container:
 ```
 eksctl get cluster
 ```
 
-To use kubectl from within the container against one of these Kubernetes clusters, run this in the container:
+Before using **kubectl** from within the container against one of these Kubernetes clusters, run this in the container:
 ```
 aws eks update-kubeconfig --name <cluster-name>
 ```
 
-To use the docker CLI from within the container, run the container like this:
+To use the **docker** CLI from within the container, run the container like this:
 ```
 docker run -v /var/run/docker.sock:/var/run/docker.sock ...
 ```
