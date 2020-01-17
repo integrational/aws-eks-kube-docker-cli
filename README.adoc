@@ -1,0 +1,9 @@
+= CLIs for AWS EKS, Kubernetes, and Docker
+
+Linux (Ubuntu) base image with
+
+- `aws`, the https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html[AWS CLI]
+- `eksctl`, the https://docs.aws.amazon.com/eks/latest/userguide/getting-started-eksctl.html[AWS EKS CLI]
+- `kubectl`, the https://kubernetes.io/docs/tasks/tools/install-kubectl/[Kubernetes CLI]
+- `aws-iam-authenticator`, to https://github.com/kubernetes-sigs/aws-iam-authenticator[authenticate to a Kubernetes cluster using AWS IAM]
+- `docker`, the https://docs.docker.com/install/linux/docker-ce/ubuntu/[Docker CE CLI]
