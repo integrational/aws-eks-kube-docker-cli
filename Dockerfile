@@ -42,21 +42,21 @@ RUN curl --silent --location "https://github.com/weaveworks/eksctl/releases/down
  && mv ./eksctl /usr/local/bin/
 
 # Either: Install latest version of kubectl
-#RUN curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | apt-key add -                                 \
-# && echo "deb https://apt.kubernetes.io/ kubernetes-xenial main" | tee -a /etc/apt/sources.list.d/kubernetes.list \
-# && apt-get update && apt-get install -y kubectl
+RUN curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | apt-key add -                                 \
+ && echo "deb https://apt.kubernetes.io/ kubernetes-xenial main" | tee -a /etc/apt/sources.list.d/kubernetes.list \
+ && apt-get update && apt-get install -y kubectl
 
 # Or: Install a specific version of kubectl
-RUN curl --silent https://amazon-eks.s3-us-west-2.amazonaws.com/1.14.6/2019-08-22/bin/linux/amd64/kubectl -o kubectl \
- && chmod +x ./kubectl                                                                                               \
- && mv ./kubectl /usr/local/bin/
+#RUN curl --silent https://amazon-eks.s3-us-west-2.amazonaws.com/1.14.6/2019-08-22/bin/linux/amd64/kubectl -o kubectl \
+# && chmod +x ./kubectl                                                                                               \
+# && mv ./kubectl /usr/local/bin/
 
 # Install a specific version of aws-iam-authenticator
 RUN curl --silent https://amazon-eks.s3-us-west-2.amazonaws.com/1.14.6/2019-08-22/bin/linux/amd64/aws-iam-authenticator -o aws-iam-authenticator \
  && chmod +x ./aws-iam-authenticator                                                                                                             \
  && mv ./aws-iam-authenticator /usr/local/bin/
 
-# Install Docker CE CLI
+# Install latest stable version of Docker CE CLI
 RUN curl -fsSL https://download.docker.com/linux/ubuntu/gpg | apt-key add -                                  \
  && add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" \
  && apt-get update && apt-get install -y docker-ce-cli
