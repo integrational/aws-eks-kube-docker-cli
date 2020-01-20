@@ -18,7 +18,7 @@ docker run --rm --name aws-eks-kube-docker-cli -it      \
            integrational/aws-eks-kube-docker-cli:latest
 ```
 
-and then, in bash, either create a cluster with `eksctl` or find and attach to an existing cluster in the default domain:
+and then, in bash, either create a cluster with `eksctl` or find and attach to an existing cluster in the default region:
 ```
 eksctl get cluster
 aws eks update-kubeconfig --name <cluster-name>
@@ -61,7 +61,12 @@ Before using **kubectl** from within the container against one of these Kubernet
 aws eks update-kubeconfig --name <cluster-name>
 ```
 
-To use the **docker** CLI from within the container, run the container like this:
+To use **docker** CLI from within the container, reusing the host's docker daemon, run the container like this:
 ```
 docker run -v /var/run/docker.sock:/var/run/docker.sock ...
+```
+
+Before running **docker push** to an **AWS ECR** repo from within the container, run this in the container (assuming the repo is in the chosen default region):
+```
+$(aws ecr get-login --no-include-email)
 ```
