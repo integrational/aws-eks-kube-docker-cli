@@ -1,0 +1,14 @@
+name: Trigger Docker Hub Build
+
+on:
+  schedule:
+    - cron: '0 3 * * *' # 03:00 in the morning every day
+
+jobs:
+  trigger-dockerhub-build:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Send HTTP POST request to Docker Hub build trigger URL
+      run: curl -XPOST $URL
+      env:
+        URL: ${{ secrets.DOCKERHUB_BUILD_TRIGGER_URL }}
